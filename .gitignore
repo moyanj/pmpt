@@ -1,0 +1,7 @@
+build/
+dist/
+
+pmpt.egg-info/
+*.tar.gz
+*.pyc
+__pycache__/

@@ -1,0 +1,6 @@
+platformdirs
+requests
+moyanlib
+click
+dill
+tqdm
