@@ -3,13 +3,13 @@ from subprocess import Popen,PIPE
 import sys
 import pathlib
 import dill
+import time
 from platformdirs import PlatformDirs
 
 dirs = PlatformDirs("PMPT", "MoYan")
 IndexList = []
 def getVer(baseVar):
-    s = os.popen('git rev-parse HEAD')
-    baseVar = baseVar + '_' + s.read()[:6]
+    baseVar = baseVar + '.' + str(int(time.time()))[:6]
     return baseVar
 __version__ = getVer('1.0.0')
 def init():
