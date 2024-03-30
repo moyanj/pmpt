@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install wheel twine
         python -m pip install -r requirements.txt
-
+        echo $GITHUB_RUN_ID
 #    - name: Test Code
 #      run: |
 #        ./test.sh
