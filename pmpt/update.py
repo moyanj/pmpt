@@ -6,7 +6,9 @@ import os
 import urllib.parse as urlparse
 from hashlib import sha256
 from .util import dirs
+from rich.console import Console
 
+console = Console()
 def getSourceID(url):
     '''
     获取源id
@@ -33,7 +35,7 @@ def getIndex(url):
 
     ClassIndex = Index(url)
 
-    print('Start parsing the HTML index for this source.')
+    console.print('🔍 Parsing HTML index...')
     for line in tqdm(HTMLIndex.split('\n')):
         # 提取并筛选标签
         line_list = line.split('>') 
@@ -42,8 +44,8 @@ def getIndex(url):
             
             ClassIndex.addPackage(package_name) # 添加包
     
-    print('This source has a total of', ClassIndex.number,'packages.') 
-    print('Start saving the index for this source.')     
+    console.print('Total number of packages:', str(ClassIndex.number))
+    console.print('📚 Saving index..."')     
     dill.dump(ClassIndex,open(f'{dirs.user_data_dir}/Index/{getSourceID(url)}.pidx','wb'))
 
 def getAllIndex():
@@ -55,11 +57,11 @@ def getAllIndex():
     '''
     SourceList = jsons.load(open(os.path.join(dirs.user_config_dir,'Source.json'))) # 加载源列表
     if len(SourceList) < 1:
-        print('You have not configured any sources.')
+        console.print('❌ [red]You have not configured any sources.[/red]')
         exit(1)
         
     for url in SourceList: # 遍历源列表
-        print('Start downloading index from', url)
+        console.print('📚 Downloading index from', url+'...')
         getIndex(url)
-        print()
+        console.print('✅ [green]Index downloaded successfully![/green]')
         

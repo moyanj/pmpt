@@ -1,8 +1,10 @@
+#pylint:disable=W0622
 import os
 from subprocess import Popen,PIPE
 import sys
 import pathlib
 import dill
+from rich import print
 import time
 from platformdirs import PlatformDirs
 
@@ -24,6 +26,7 @@ def loadIndex():
     加载索引
     '''
     if len(IndexList) == 0: # 判断是否为空
+        print('🔍 Loading index...')
         IndexDir = pathlib.Path(os.path.join(dirs.user_data_dir,'Index'))
         for i in IndexDir.iterdir(): # 遍历索引文件夹
             IndexFile = dill.load(open(i,'rb')) # 加载索引
@@ -32,17 +35,20 @@ def loadIndex():
         if len(IndexList) == 0:
             raise FileNotFoundError('No index. Run "pmpt update" first to update the index')
 
-def runpip(command,other=[]) -> Popen:
+def runpip(command,other=None,dbg=False) -> Popen:
     '''
     运行pip
     '''
+    if not other:
+        other = []
     baseCommand = [sys.executable,'-m','pip']
     baseCommand.append(command)
     
     Command = baseCommand + other
-    
-    print(' '.join(Command))
+    if dbg:
+        print('Command to be run:',' '.join(Command))
     
     runClass = Popen(Command)
     runClass.wait()
     return runClass
+    

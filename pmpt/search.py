@@ -3,9 +3,12 @@ from . import util
 from moyanlib import jsons
 from .install import search
 import os
+from rich.console import Console
+
+console = Console()
 def main(name,allinfo,api_url):
     if not search(name):
-        print('The package does not exist')
+        console.print('❌ [red]The package does not exist[/red]')
         exit()
         
     if not api_url:
@@ -13,11 +16,11 @@ def main(name,allinfo,api_url):
     
     req = requests.get(api_url.format(name))
     if req.status_code == 404:
-        print('The package does not exist')
+        console.print('❌ [red]The package does not exist[/red]')
         exit()
     elif req.status_code != 200:
-        print('Server Error!')
-        print('Error Code:',req.status_code)
+        console.print('❌ [red]Server Error![/red]')
+        console.print('[red]Error Code: '+str(req.status_code)+'[/red]')
         exit()
     
     
