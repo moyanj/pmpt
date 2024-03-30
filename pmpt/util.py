@@ -9,7 +9,7 @@ dirs = PlatformDirs("PMPT", "MoYan")
 IndexList = []
 def getVer(baseVar):
     s = os.popen('git rev-parse HEAD')
-    baseVar = baseVar + '-' + s.read()[:6]
+    baseVar = baseVar + '_' + s.read()[:6]
     return baseVar
 __version__ = getVer('1.0.0')
 def init():
