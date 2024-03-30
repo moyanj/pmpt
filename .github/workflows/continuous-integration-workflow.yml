@@ -7,8 +7,6 @@ name: Upload Python Package
 on:
   # 当master分支有push时，触发action
   push:
-    tags:
-        - v**
 jobs:
   deploy:
     name: publish python package to PYPI
