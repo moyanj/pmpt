@@ -8,13 +8,11 @@ from platformdirs import PlatformDirs
 
 dirs = PlatformDirs("PMPT", "MoYan")
 IndexList = []
-def getVer():
-    s = os.popen('git describe --tags').read()
-    print(s)
-    baseVar = s.split('v')[1].split('-')[0] + '_' + os.environ.get('GITHUB_RUN_ID', str(int(time.time()))[:6])
+def getVer(baseVar):
+    baseVar = baseVar + '.' + os.environ.get('GITHUB_RUN_ID', str(int(time.time()))[:6])
     return baseVar
     
-__version__ = getVer()
+__version__ = getVer('1.0.1')
 def init():
     os.makedirs(dirs.user_data_dir,exist_ok=True)
     os.makedirs(os.path.join(dirs.user_data_dir,'Index'),exist_ok=True)

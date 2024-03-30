@@ -2,13 +2,13 @@
 # For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 
 # action的名称
-name: Upload Python Package gotwo
+name: Upload Python Package
 
 on:
   # 当master分支有push时，触发action
   push:
-  pull_request:
-
+    tags:
+        - v**
 jobs:
   deploy:
     name: publish python package to PYPI
@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install wheel twine
         python -m pip install -r requirements.txt
-        echo $GITHUB_RUN_ID
+        
 #    - name: Test Code
 #      run: |
 #        ./test.sh
