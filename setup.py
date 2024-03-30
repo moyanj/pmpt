@@ -14,13 +14,14 @@ class CustomInstallCommand(install):
         open(os.path.join(dirs.user_config_dir,'Source.json'),'w').write('["https://pypi.org/simple/"]')
         open(os.path.join(dirs.user_config_dir,'api.url'),'w').write('https://pypi.org/pypi/{}/json')
 
+
 setup(
     name='pmpt',  # 包的名称
     version=util.__version__,  # 版本号
     packages=find_packages(),  # 包含的包
     author='MoYan',  # 作者
     author_email='moyan@moyanjdc.top',  # 作者邮箱
-    description='a Python Package Advanced Manager',  # 包的简要描述
+    description='A Python Package Advanced Manager',  # 包的简要描述
     long_description='A longer description of your package',  # 包的详细描述
     long_description_content_type='text/markdown',  # 描述的内容类型
     classifiers=[  # 包的分类信息

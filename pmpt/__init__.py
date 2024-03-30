@@ -1,6 +1,8 @@
 import click
 from . import update as updates
 from . import util
+from moyanlib import jsons
+import os
 from . import install as installs 
 from . import search as searchs
 @click.group()
@@ -42,5 +44,25 @@ def remove(name,yes):
 @click.option('--api-url','-u',default=None)
 def search(*args, **kwargs):
     searchs.main(*args,**kwargs)
+    
+@cli.group()
+def source():
+    pass
+    
+@source.command()
+@click.argument('url')
+def add(url):
+    sourceList = jsons.load(open(os.path.join(util.dirs.user_config_dir,'Source.json')))
+    if url in sourceList:
+        print('The source already exists')
+        exit()
+    sourceList.append(url)
+    jsons.dump(sourceList,open(os.path.join(util.dirs.user_config_dir,'Source.json')))
+@source.command(name='list')
+def lists():
+    sourceList = jsons.load(open(os.path.join(util.dirs.user_config_dir,'Source.json')))
+    ids = 1
+    for i in sourceList:
+        print(str(ids)+'.',i)
 if __name__ == '__main__':
     cli()
