@@ -10,7 +10,8 @@ dirs = PlatformDirs("PMPT", "MoYan")
 IndexList = []
 def getVer():
     s = os.popen('git describe --tags').read()
-    baseVar = s.split('v')[1] + '_' + os.environ.get('GITHUB_RUN_ID', str(int(time.time()))[:6])
+    print(s)
+    baseVar = s.split('v')[1].split('-')[0] + '_' + os.environ.get('GITHUB_RUN_ID', str(int(time.time()))[:6])
     return baseVar
     
 __version__ = getVer()
