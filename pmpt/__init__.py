@@ -2,6 +2,7 @@ import click
 from . import update as updates
 from . import util
 from moyanlib import jsons
+from rich.table import Table
 from . import source as sou
 from . import install as installs 
 from . import search as searchs
@@ -32,8 +33,20 @@ def install(*args,**kwargs):
     installs.main(*args,**kwargs)
  
 @cli.command(name='list',short_help='List all Python packages')
-def listp():    
-    util.runpip('list') 
+def listp(): 
+    table = Table(show_header=True)
+    table.add_column('Name')
+    table.add_column('Version')   
+    listv = util.runpip('freeze',out=False)
+    for line in iter(listv.stdout.readline, b''):
+        
+        # 在这里你可以对每一行输出进行处理
+        line = line.decode('utf-8').strip()  # 将字节转换为字符串并去除换行符
+        if '==' not in line or line[0]=='#':
+            continue
+        lineList = line.split('==')
+        table.add_row(lineList[0],lineList[1])
+    util.console.print(table)
     
 @cli.command() 
 @click.argument('name')

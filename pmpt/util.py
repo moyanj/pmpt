@@ -48,7 +48,7 @@ def loadIndex():
     if len(IndexList) == 0:
         raise FileNotFoundError('No index. Run "pmpt update" first to update the index')
 
-def runpip(command,other=None,dbg=False) -> Popen:
+def runpip(command,other=None,dbg=False,out=True) -> Popen:
     '''
     运行pip
     '''
@@ -62,11 +62,14 @@ def runpip(command,other=None,dbg=False) -> Popen:
         console.print('Command to be run:',' '.join(Command))
     
     runClass = Popen(Command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    for line in iter(runClass.stdout.readline, b''):
-        # 在这里你可以对每一行输出进行处理
-        line = line.decode('utf-8').strip()  # 将字节转换为字符串并去除换行符
-        console.print(line) 
-    runClass.communicate()
+    if out:
+        for line in iter(runClass.stdout.readline, b''):
+            # 在这里你可以对每一行输出进行处理
+            line = line.decode('utf-8').strip()  # 将字节转换为字符串并去除换行符
+            console.print(line) 
+        runClass.communicate()
+    else:
+        runClass.wait()
     return runClass
 
     
