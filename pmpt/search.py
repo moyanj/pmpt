@@ -3,9 +3,8 @@ from . import util
 from moyanlib import jsons
 from .install import search
 import os
-from rich.console import Console
 
-console = Console()
+console = util.console
 def main(name,allinfo,api_url):
     if not search(name):
         console.print('❌ [red]The package does not exist[/red]')
@@ -16,6 +15,7 @@ def main(name,allinfo,api_url):
     
     req = requests.get(api_url.format(name))
     if req.status_code == 404:
+        console.print(404 )
         console.print('❌ [red]The package does not exist[/red]')
         exit()
     elif req.status_code != 200:
@@ -32,7 +32,8 @@ def main(name,allinfo,api_url):
         print('Summary:',packageInfo['info']['summary'])
         print('Keywords:',packageInfo['info']['keywords'])
         print('License:',packageInfo['info']['license'])
-        print('Dependent Library:',', '.join(packageInfo['info']['requires_dist']))
+        if packageInfo['info']['requires_dist']:
+            print('Dependent Library:',', '.join(packageInfo['info']['requires_dist']))
     elif allinfo:
         for k,v in packageInfo['info'].items():
             print(f'{k}: {v}')

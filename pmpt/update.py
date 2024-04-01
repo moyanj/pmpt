@@ -3,34 +3,27 @@ from moyanlib import jsons
 from tqdm import tqdm
 import dill
 import os
-import urllib.parse as urlparse
-from hashlib import sha256
-from .util import dirs
-from rich.console import Console
+from .util import dirs,console
 
-console = Console()
 def getSourceID(url):
     '''
     获取源id
     '''
-    url = urlparse.urlparse(url)
-    SourceID_Str = url.netloc + url.path # 取主机名和路径
-    sha = sha256()
-    sha.update(SourceID_Str.encode())
-    return sha.hexdigest()[:8] # 取前八位
+    return url['id'] # 取前八位
     
 class Index:
     def __init__(self,indexurl):
         self.packageList = {}
-        self.IndexURL = indexurl
+        self.IndexURL = indexurl['url']
         self.number = 0
+        self.priority = indexurl['priority']
         
     def addPackage(self, name):
-        self.packageList[name] = 'H'
+        self.packageList[name] = '1'
         self.number += 1
     
 def getIndex(url):
-    req = requests.get(url) # 请求HTML
+    req = requests.get(url['url']) # 请求HTML
     HTMLIndex = req.text
 
     ClassIndex = Index(url)
@@ -60,8 +53,8 @@ def getAllIndex():
         console.print('❌ [red]You have not configured any sources.[/red]')
         exit(1)
         
-    for url in SourceList: # 遍历源列表
-        console.print('📚 Downloading index from', url+'...')
-        getIndex(url)
+    for source in SourceList: # 遍历源列表
+        console.print('📚 Downloading index from', source['url']+'...')
+        getIndex(source)
         console.print('✅ [green]Index downloaded successfully![/green]')
         

@@ -1,5 +1,4 @@
 from . import util
-from rich.console import Console
 from rich.table import Table
     
 def search(name):
@@ -8,9 +7,11 @@ def search(name):
         dt = Index.packageList.get(name,None)
         if dt:
             return Index.IndexURL
-            
-def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes):
-    console = Console()
+ 
+           
+    
+def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes,command):
+    console = util.console
     if reads: # 从文件读取列表
         f = open(packlist[0])
         packlist = f.read().split('\n')
@@ -50,7 +51,7 @@ def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes):
         
     if len(canInstallPack) < 1:
         console.print('❌ [red]There are no packages available for installation.[red]')
-        exit()
+        exit(1)
         
     console.print('📦 Packages to be installed:')
     console.print(' '.join(canInstallPack))
@@ -65,7 +66,7 @@ def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes):
             break
         elif ye.lower() == 'n':
             console.print('🛑 [red]User canceled the installation.[/red]')
-            exit()
+            exit(1)
         else:
             continue
                 
@@ -83,11 +84,12 @@ def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes):
             args.append('--ignore-requires-python')
                     
         args.append(packsInfo[pack][1])
-        ret = util.runpip('install',args) # 运行pip
+        with console.status('🚀 [green]Installing...[/green]') as status:
+            ret = util.runpip('install',args,command) # 运行pip
             
         if ret.returncode != 0: #是否执行完毕
             console.print('❌ [red]Installation failed.[/red]')
-            exit()
+            exit(1)
         console.print(f'✅ [green]Installation successful for {pack}[/green]')
         
             

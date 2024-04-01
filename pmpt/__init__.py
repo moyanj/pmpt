@@ -2,11 +2,17 @@ import click
 from . import update as updates
 from . import util
 from moyanlib import jsons
-import os
+from . import source as sou
 from . import install as installs 
 from . import search as searchs
+
 @click.group()
 def cli():
+    try:
+        import pip
+    except ImportError:
+        util.console.print('❌ [red]pip module not found![/red]')
+        exit(1)
     util.init() # 初始化
  
 @cli.command(short_help='Update Package Index')
@@ -21,6 +27,7 @@ def update():
 @click.option('--force-reinstall','-fr',is_flag=True,default=False)
 @click.option('--ignore-requires-python','-irp',is_flag=True,default=False)
 @click.option('--yes','-y',is_flag=True,default=False)
+@click.option('--command','-c',is_flag=True,default=False)
 def install(*args,**kwargs):
     installs.main(*args,**kwargs)
  
@@ -51,18 +58,26 @@ def source():
     
 @source.command()
 @click.argument('url')
-def add(url):
-    sourceList = jsons.load(open(os.path.join(util.dirs.user_config_dir,'Source.json')))
-    if url in sourceList:
-        print('The source already exists')
-        exit()
-    sourceList.append(url)
-    jsons.dump(sourceList,open(os.path.join(util.dirs.user_config_dir,'Source.json')))
+@click.option('--priority','-p',default=1,type=int)
+def add(*args,**kwargs):
+    sou.add(*args,**kwargs)
+    
 @source.command(name='list')
 def lists():
-    sourceList = jsons.load(open(os.path.join(util.dirs.user_config_dir,'Source.json')))
-    ids = 1
-    for i in sourceList:
-        print(str(ids)+'.',i)
+    sou.lists()
+    
+@source.command(name='remove')
+@click.argument('ids',default=None,required=False)
+@click.option('-y','--yes',is_flag=True,default=False)
+def removes(*args,**kwargs):
+    sou.remove(*args,**kwargs)
+       
+@source.command(name='modify')
+@click.argument('ids')
+@click.argument('key')
+@click.argument('val')
+def modifys(*args,**kwargs):
+    sou.modify(*args,**kwargs)
+    
 if __name__ == '__main__':
     cli()
