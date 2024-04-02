@@ -22,7 +22,7 @@ setup(
     author='MoYan',  # 作者
     author_email='moyan@moyanjdc.top',  # 作者邮箱
     description='A Python Package Advanced Manager',  # 包的简要描述
-    long_description='A longer description of your package',  # 包的详细描述
+    long_description=open("readme.md").read(),  # 包的详细描述
     long_description_content_type='text/markdown',  # 描述的内容类型
     classifiers=[  # 包的分类信息
         'Development Status :: 3 - Alpha',

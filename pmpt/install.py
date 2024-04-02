@@ -1,11 +1,21 @@
 from . import util
+import requests
 from rich.table import Table
+from urllib import parse
     
 def search(name):
     util.loadIndex() #加载索引    
     for Index in util.IndexList:
         dt = Index.packageList.get(name,None)
         if dt:
+            try:
+                rurl = parse.urljoin(Index.IndexURL,name)
+                r = requests.get(rurl)
+            except:
+                continue
+            else:
+                if r.status_code != 200:
+                    continue
             return Index.IndexURL
  
            
@@ -18,6 +28,7 @@ def main(packlist,upgrade,reads,force_reinstall,ignore_requires_python,yes,comma
         
     packsInfo = {}
     with console.status('🚀🔍 Searching for package information...') as status:
+        # 创建表格
         table = Table(show_header=True,header_style='bold')
         table.add_column("Package Name", width=20,style='bold')
         table.add_column("Package Source", width=20,style='green')

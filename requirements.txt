@@ -5,3 +5,4 @@ click
 dill
 tqdm
 rich
+loguru

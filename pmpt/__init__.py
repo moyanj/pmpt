@@ -4,6 +4,7 @@ from . import util
 from moyanlib import jsons
 from rich.table import Table
 from . import source as sou
+from . import environment as environ
 from . import install as installs 
 from . import search as searchs
 
@@ -12,6 +13,7 @@ def cli():
     try:
         import pip
     except ImportError:
+        util.logger.critical('没有pip')
         util.console.print('❌ [red]pip module not found![/red]')
         exit(1)
     util.init() # 初始化
@@ -91,6 +93,10 @@ def removes(*args,**kwargs):
 @click.argument('val')
 def modifys(*args,**kwargs):
     sou.modify(*args,**kwargs)
+    
+@cli.command()
+def version():
+    environ.main()
     
 if __name__ == '__main__':
     cli()

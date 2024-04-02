@@ -2,6 +2,7 @@ build/
 dist/
 
 pmpt.egg-info/
-*.tar.gz
+*.tar.g
 *.pyc
+*.whl
 __pycache__/

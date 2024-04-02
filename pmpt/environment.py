@@ -1,5 +1,7 @@
 import subprocess
 import re
+from . import util
+import moyanlib
 
 def get_version(command):
     try:
@@ -10,9 +12,9 @@ def get_version(command):
         if version_match:
             return version_match.group(1)
         else:
-            return False
+            return '[red]False[/red]'
     except subprocess.CalledProcessError:
-        return False
+        return '[red]False[/red]'
 
 def getGCCver():
     # 检查是否能执行 gcc 命令
@@ -33,9 +35,18 @@ def getRustVer():
         rustVer = stdout.decode().split(' ')[1]
         return rustVer
     else:
-        return False
+        return '[red]False[/red]'
 
-print("GCC 版本:", getGCCver())
-print("Clang 版本:", getClangVer())
-print("MSVC 版本:", getMSVCver())
-print('Rust版本:',getRustVer())
+def getPIPver():
+    return get_version('pip -V')
+def main():
+    info = moyanlib.getInfo()
+    printText = f'''[white]PMPT {util.__version__}[/white]
+{info['OS']['Name']} {info['OS']['Version']}
+Python Version: {info['Python']['Version']}
+PIP Version: [green]{getPIPver()}[/green]
+GCC Version: [green]{getGCCver()}[/green]
+Clang Version: [green]{getClangVer()}[/green]
+MSVC Version: [green]{getMSVCver()}[/green]
+Rust Version: [green]{getRustVer()}[/green]'''
+    util.console.print(printText)
