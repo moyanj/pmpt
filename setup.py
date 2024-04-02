@@ -1,19 +1,5 @@
 from setuptools import setup, find_packages
-from setuptools.command.install import install 
-import os
 from pmpt import util
-
-class CustomInstallCommand(install): 
-    def run(self): 
-        install.run(self) # 在安装过程中执行你想要的代码 
-        dirs = util.dirs
-        os.makedirs(dirs.user_data_dir,exist_ok=True)
-        os.makedirs(os.path.join(dirs.user_data_dir,'Index'),exist_ok=True)
-        os.makedirs(dirs.user_config_dir,exist_ok=True)
-        os.makedirs(dirs.user_cache_dir,exist_ok=True)
-        open(os.path.join(dirs.user_config_dir,'Source.json'),'w').write('["https://pypi.org/simple/"]')
-        open(os.path.join(dirs.user_config_dir,'api.url'),'w').write('https://pypi.org/pypi/{}/json')
-
 
 setup(
     name='pmpt',  # 包的名称
@@ -39,8 +25,5 @@ setup(
         'console_scripts': [
             'pmpt=pmpt:cli',
         ],
-    },
-    cmdclass={
-        'install': CustomInstallCommand,
     }
 )

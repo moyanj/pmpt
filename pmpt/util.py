@@ -49,7 +49,14 @@ def init():
     os.makedirs(os.path.join(dirs.user_data_dir,'Index'),exist_ok=True)
     os.makedirs(dirs.user_config_dir,exist_ok=True)
     os.makedirs(dirs.user_cache_dir,exist_ok=True)
-    
+    if not os.path.exists(os.path.join(dirs.user_config_dir,'Source.json')):
+        open(os.path.join(dirs.user_config_dir,'Source.json'),'w').write('[]')
+        from . import source
+        source.add("https://pypi.org/simple",1)
+
+    if not os.path.exists(os.path.join(dirs.user_config_dir,'api.url')):
+        open(os.path.join(dirs.user_config_dir,'api.url'),'w').write('https://pypi.org/pypi/{}/json')
+
 def bubbleSort(arr):
     for i in range(1,len(arr)):
         for j in range(0, len(arr)-i):

@@ -5,4 +5,5 @@ pmpt.egg-info/
 *.tar.g
 *.pyc
 *.whl
+venv/
 __pycache__/

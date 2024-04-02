@@ -10,10 +10,11 @@ from . import search as searchs
 import datetime
 import webbrowser
 import time
+util.init()
 @click.group()
 def cli():
     today = datetime.datetime.today()
-    if today.month == 4 and today.day == 2:
+    if today.month == 9 and today.day == 28:
         webbrowser.open('https://ys.mihoyo.com/') 
         util.console.print('[green]Genshin！activate！[/green]')
         time.sleep(0.7)
