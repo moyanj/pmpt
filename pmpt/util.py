@@ -7,6 +7,8 @@ from rich.console import Console
 from loguru import logger
 import subprocess
 from moyanlib import jsons
+import time
+import datetime 
 from platformdirs import PlatformDirs
 
 dirs = PlatformDirs("PMPT", "MoYan")
@@ -60,6 +62,11 @@ def loadIndex():
     '''
     加载索引
     '''
+    today = datetime.datetime.today()
+    if today.month == 4 and today.day == 1:
+        console.print('😱😱😱 [red]Oh no, your indexes have all been eaten by a python snake.[/red]')
+        time.sleep(2.3)
+        console.print('😄 [green]But after our life-and-death struggle, I managed to retrieve all of your indexes.[/green]')
     sourceList = jsons.load(open(os.path.join(dirs.user_config_dir,'Source.json')))
     sourceList = bubbleSort(sourceList)
     for source in sourceList:

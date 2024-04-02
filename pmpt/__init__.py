@@ -7,9 +7,19 @@ from . import source as sou
 from . import environment as environ
 from . import install as installs 
 from . import search as searchs
-
+import datetime
+import webbrowser
+import time
 @click.group()
 def cli():
+    today = datetime.datetime.today()
+    if today.month == 4 and today.day == 2:
+        webbrowser.open('https://ys.mihoyo.com/') 
+        util.console.print('[green]Genshin！activate！[/green]')
+        time.sleep(0.7)
+        util.console.print('[green]You all must download Genshin Impact.[/green]')
+        time.sleep(0.7)
+        util.console.print("Then don't use PMPT.",style='green')
     try:
         import pip
     except ImportError:
