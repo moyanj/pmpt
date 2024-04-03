@@ -37,12 +37,11 @@ cleanall: clean
 clean:
 	rm -r $(DIST_DIR) $(BUILD_DIR) pmpt.egg-info
 
-push:
+commit:
 	@if [ -z "$(msg)" ]; then \
 		echo "Please provide a commit message using 'msg' parameter."; \
 		exit 1; \
 	else \
 		git add .; \
 		git commit -m "$(msg)"; \
-		git push origin master; \
 	fi
