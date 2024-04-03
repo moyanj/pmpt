@@ -1,3 +1,4 @@
+#pylint:disable=W0611
 import click
 from . import update as updates
 from . import util
@@ -10,7 +11,6 @@ from . import search as searchs
 import datetime
 import webbrowser
 import time
-util.init()
 @click.group()
 def cli():
     today = datetime.datetime.today()
@@ -27,7 +27,6 @@ def cli():
         util.logger.critical('没有pip')
         util.console.print('❌ [red]pip module not found![/red]')
         exit(1)
-    util.init() # 初始化
  
 @cli.command(short_help='Update Package Index')
 def update():

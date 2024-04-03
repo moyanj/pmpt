@@ -40,7 +40,7 @@ logger.add(
     level='TRACE',
 )
 
-__version__ = getVer('1.0.3')
+__version__ = getVer('1.0.4')
 
 
 def init():
@@ -52,7 +52,7 @@ def init():
     if not os.path.exists(os.path.join(dirs.user_config_dir,'Source.json')):
         open(os.path.join(dirs.user_config_dir,'Source.json'),'w').write('[]')
         from . import source
-        source.add("https://pypi.org/simple",1)
+        source.add()
 
     if not os.path.exists(os.path.join(dirs.user_config_dir,'api.url')):
         open(os.path.join(dirs.user_config_dir,'api.url'),'w').write('https://pypi.org/pypi/{}/json')
