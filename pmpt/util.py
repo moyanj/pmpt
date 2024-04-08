@@ -58,7 +58,7 @@ def init():
         open(os.path.join(dirs.user_config_dir, "Source.json"), "w").write("[]")
         from . import source
 
-        source.add()
+        source.add("https://pypi.org/simple", 1)
 
     if not os.path.exists(os.path.join(dirs.user_config_dir, "api.url")):
         open(os.path.join(dirs.user_config_dir, "api.url"), "w").write(

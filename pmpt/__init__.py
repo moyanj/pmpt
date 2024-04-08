@@ -1,16 +1,19 @@
 # pylint:disable=W0611
+import datetime
+import webbrowser
+import time
+import os
+import sys
 import click
-from . import update as updates
-from . import util
 from moyanlib import jsons
 from rich.table import Table
+from . import update as updates
+from . import util
 from . import source as sou
 from . import environment as environ
 from . import install as installs
 from . import search as searchs
-import datetime
-import webbrowser
-import time
+from . import web as webs
 
 
 @click.group()
@@ -121,6 +124,11 @@ def modifys(*args, **kwargs):
 @cli.command()
 def version():
     environ.main()
+
+
+@cli.command()
+def web():
+    webs.run()
 
 
 if __name__ == "__main__":

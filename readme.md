@@ -1,5 +1,5 @@
 # PMPT (Python Package Advanced Manager)
-
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) 
 PMPT 是一个用于管理 Python 包的高级工具，旨在简化包的安装、更新和卸载过程。它提供了一套简单易用的命令行界面，使得管理 Python 包变得更加便捷。
 
 ## 特性

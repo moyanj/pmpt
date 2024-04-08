@@ -14,12 +14,14 @@ BUILD_DIR := build
 ALL: help
 help:
 	@echo "Available targets:"
-	@echo "  install         Install dependencies"
-	@echo "  test            Run tests"
-	@echo "  clean           Clean up"
+	@echo "  build         Build Package"
+	@echo "  init           Initialization"
+	@echo "  clean         Clean up"
+	@echo "  cleanall       Clear All"
+	@echo "  venv          Create a virtual environment"
 
-build:
-	$(PYTHON) setup.py bdist_wheel -d $(DIST_DIR) sdist -d $(DIST_DIR) 
+build: pre
+	$(PYTHON) setup.py bdist_wheel -d $(DIST_DIR) sdist -d $(DIST_DIR) bdist_egg -d $(DIST_DIR) 
 	
 init: venv
 	@for file in requirements/*.txt; do \
@@ -45,3 +47,6 @@ commit:
 		git add .; \
 		git commit -m "$(msg)"; \
 	fi
+	
+pre: init
+	$(PYTHON) -m black .

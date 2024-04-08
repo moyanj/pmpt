@@ -4,7 +4,7 @@ from pmpt import util
 setup(
     name="pmpt",  # 包的名称
     version=util.__version__,  # 版本号
-    packages=find_packages(),  # 包含的包
+    packages=find_packages(exclude=["tests", "tests.*"]),  # 包含的包
     author="MoYan",  # 作者
     author_email="moyan@moyanjdc.top",  # 作者邮箱
     description="A Python Package Advanced Manager",  # 包的简要描述
@@ -27,4 +27,5 @@ setup(
     extras_require={
         "web": open("requirements/web.txt").read().split("\n"),
     },
+    include_package_data=True,
 )
