@@ -5,6 +5,8 @@ import dill
 import os
 from .util import dirs, console
 
+packageNum = 0
+
 
 def getSourceID(url):
     """
@@ -26,7 +28,12 @@ class Index:
 
 
 def getIndex(url):
-    req = requests.get(url["url"])  # 请求HTML
+    global packageNum
+    try:
+        req = requests.get(url["url"])  # 请求HTML
+    except Exception:
+        console.print("[red]Unable to connect to source[/red]")
+        return False
     HTMLIndex = req.text
 
     ClassIndex = Index(url)
@@ -41,10 +48,12 @@ def getIndex(url):
             ClassIndex.addPackage(package_name)  # 添加包
 
     console.print("Total number of packages:", str(ClassIndex.number))
+    packageNum += ClassIndex.number
     console.print('📚 Saving index..."')
     dill.dump(
         ClassIndex, open(f"{dirs.user_data_dir}/Index/{getSourceID(url)}.pidx", "wb")
     )
+    return True
 
 
 def getAllIndex():
@@ -63,5 +72,9 @@ def getAllIndex():
 
     for source in SourceList:  # 遍历源列表
         console.print("📚 Downloading index from", source["url"] + "...")
-        getIndex(source)
-        console.print("✅ [green]Index downloaded successfully![/green]")
+        sta = getIndex(source)
+        if sta:
+            console.print("✅ [green]Index downloaded successfully![/green]")
+        else:
+            console.print("❌ [red]Index download failed.[/red]")
+    # print(packageNum)

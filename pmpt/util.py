@@ -24,21 +24,6 @@ def getVer(baseVar):
     return baseVar
 
 
-def GlobalDecorator(frame, event, arg):
-    if event == "call":
-        try:
-            func_name = frame.f_code.co_name
-            module_name = frame.f_globals["__name__"]
-            package_name = module_name.split(".")[0]  # 假设包名为模块名的第一部分
-            if package_name == "pmpt":
-                logger.trace(f"调用函数 {module_name}.{func_name}")
-        except:
-            pass
-    return GlobalDecorator
-
-
-sys.settrace(GlobalDecorator)
-
 logger.remove()
 logger.add(
     os.path.join(dirs.user_data_dir, "log.log"),
