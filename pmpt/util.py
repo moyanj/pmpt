@@ -17,9 +17,10 @@ console = Console()
 
 
 def getVer(baseVar):
-    baseVar = (
-        baseVar  # + '.' + os.environ.get('GITHUB_RUN_ID', str(int(time.time()))[:6])
-    )
+    if os.environ.get('GITHUB_ACTIONS', None):
+        baseVar = (
+            baseVar + '.' + os.environ.get('GITHUB_RUN_NUMBER')
+        )  
     logger.info("PMPT " + baseVar)
     return baseVar
 
@@ -30,7 +31,7 @@ logger.add(
     level="TRACE",
 )
 
-__version__ = getVer("1.0.3")
+__version__ = getVer("1.0.5")
 
 
 def init():
@@ -43,7 +44,7 @@ def init():
         open(os.path.join(dirs.user_config_dir, "Source.json"), "w").write("[]")
         from . import source
 
-        source.add("https://pypi.org/simple", 1)
+        source.add('https://pypi.org/simple',1)
 
     if not os.path.exists(os.path.join(dirs.user_config_dir, "api.url")):
         open(os.path.join(dirs.user_config_dir, "api.url"), "w").write(
