@@ -37,3 +37,4 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel 
         twine upload dist/*
+        twine upload dist/* --repository https://git.moyanjdc.top/api/packages/moyan/pypi/simple
